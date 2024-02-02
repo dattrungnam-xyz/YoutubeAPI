@@ -6,22 +6,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { AuthModule } from './auth/auth.module';
 import { VideoModule } from './video/video.module';
-import ormConfig from './config/orm.config';
-import typeorm from './config/typeorm';
+
+import { dataSourceOptions } from './config/typeorm.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [typeorm],
+      // load: [typeorm],
     }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     // TypeOrmModule.forRootAsync({
-    //   useFactory: ormConfig,
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) =>
+    //     configService.get('typeorm'),
     // }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) =>
-        configService.get('typeorm'),
-    }),
     CloudinaryModule,
     AuthModule,
     VideoModule,
