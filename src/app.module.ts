@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { VideoModule } from './video/video.module';
 
 import { dataSourceOptions } from './config/typeorm.config';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +24,7 @@ import { dataSourceOptions } from './config/typeorm.config';
     CloudinaryModule,
     AuthModule,
     VideoModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
