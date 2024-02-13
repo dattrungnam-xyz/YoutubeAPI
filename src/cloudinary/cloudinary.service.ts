@@ -9,10 +9,13 @@ import { Express } from 'express';
 export class CloudinaryService {
   private logger = new Logger(CloudinaryService.name);
   constructor() {}
-  async uploadImageBase64(url: string): Promise<CloudinaryOutput> {
+  async uploadImage(file: Express.Multer.File): Promise<CloudinaryOutput> {
+    const b64 = Buffer.from(file.buffer).toString('base64');
+    let url: string = 'data:' + file.mimetype + ';base64,' + b64;
     let res: CloudinaryResponse = await cloudinary.uploader.upload(url, {
       resource_type: 'auto',
     });
+    this.logger.log({ url: res.url, type: 'photo' });
     return { url: res.url, type: 'photo' } as CloudinaryOutput;
   }
   async uploadVideoStream(
@@ -28,6 +31,7 @@ export class CloudinaryService {
         )
         .end(file.buffer);
     });
+    this.logger.log({ url: res.url, type: 'video' });
     return { url: res.url, type: 'video' } as CloudinaryOutput;
   }
 }

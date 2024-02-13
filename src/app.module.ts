@@ -9,6 +9,7 @@ import { VideoModule } from './video/video.module';
 
 import { dataSourceOptions } from './config/typeorm.config';
 import { UsersModule } from './users/users.module';
+import { TestModule } from './test/test.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     VideoModule,
     UsersModule,
+    TestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

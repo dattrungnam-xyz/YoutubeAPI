@@ -1,16 +1,15 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-
-import { UserRepository } from '../users/users.repository';
 import { User } from '../users/entities/user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   constructor(
-    @InjectRepository(UserRepository)
-    private readonly userRepository: UserRepository,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   public async hasPassword(password: string): Promise<string> {
