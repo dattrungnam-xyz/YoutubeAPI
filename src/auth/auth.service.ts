@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
+import { CreateUserDTO } from './input/createUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -35,5 +36,16 @@ export class AuthService {
     }
 
     return user;
+  }
+  public async signToken(): Promise<string> {
+    return '';
+  }
+  public async createUser(createUserDTO: CreateUserDTO): Promise<User> {
+    return this.userRepository.save(
+      new User({
+        ...createUserDTO,
+        password: await this.hasPassword(createUserDTO.password),
+      }),
+    );
   }
 }

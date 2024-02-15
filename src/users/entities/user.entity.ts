@@ -1,15 +1,22 @@
+import { Video } from 'src/video/entities/video.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: Number;
+  constructor(partial?: Partial<User>) {
+    Object.assign(this, partial);
+  }
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   username: string;
@@ -40,4 +47,14 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createAt: Date;
+
+  @ManyToMany(() => User, (user) => user.subcribers)
+  @JoinTable()
+  subcribes: User[];
+
+  @ManyToMany(() => User, (user) => user.subcribes)
+  subcribers: User[];
+
+  @OneToMany(() => Video, (video) => video.idUser)
+  videos: Video[];
 }
