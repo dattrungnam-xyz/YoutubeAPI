@@ -4,11 +4,13 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './input/createUser.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   constructor(
+    private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
@@ -37,10 +39,11 @@ export class AuthService {
 
     return user;
   }
-  public async signToken(): Promise<string> {
-    return '';
+  public signToken(user: User): string {
+    return this.jwtService.sign({ id: user.id });
   }
   public async createUser(createUserDTO: CreateUserDTO): Promise<User> {
+    createUserDTO.passwordComfirm = undefined;
     return this.userRepository.save(
       new User({
         ...createUserDTO,
