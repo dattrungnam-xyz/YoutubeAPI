@@ -19,22 +19,31 @@ import { AuthGuardLocal } from './authGuard.local';
 import { CreateUserDTO } from './input/createUser.dto';
 import { get } from 'http';
 import { JwtAuthGuard } from './authGuard.jwt';
+import { MailService } from 'src/mail/mail.service';
 
 @Controller('auth')
 // @SerializeOptions({ strategy: 'excludeAll' })
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly mailService: MailService,
+  ) {}
   @Post('login')
   @UseGuards(AuthGuardLocal)
   async login(@CurrentUser() user: User) {
-    return user;
+    // let user = await this.authService.createUser(createUserDTO);
+    return {
+      token: this.authService.signToken(user),
+      user: user,
+    };
   }
 
-  // @Get()
-  // @UseGuards(JwtAuthGuard)
-  // async getMe(@Req() req:any): Promise<User> {
-  //   return req.user;
-  // }
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getMe(@Req() req: any): Promise<User> {
+    this.mailService.sendMailResetPassword(req.user, 'testurl');
+    return req.user;
+  }
 
   @Post('signup')
   async signup(@Body() createUserDTO: CreateUserDTO) {

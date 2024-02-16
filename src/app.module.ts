@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { TestModule } from './test/test.module';
 import { CommentModule } from './comment/comment.module';
 import { LikeModule } from './like/like.module';
+import { MailModule } from './mail/mail.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,6 +32,7 @@ import { LikeModule } from './like/like.module';
     TestModule,
     CommentModule,
     LikeModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
