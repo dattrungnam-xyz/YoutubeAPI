@@ -17,5 +17,5 @@ export class CreateUserDTO {
   password: string;
 
   @IsRepeated('password')
-  passwordComfirm: string;
+  passwordConfirm: string;
 }

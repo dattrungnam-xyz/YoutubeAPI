@@ -17,9 +17,11 @@ import { CurrentUser } from 'src/decorator/currentUser.decorator';
 import { User } from 'src/users/entities/user.entity';
 import { AuthGuardLocal } from './authGuard.local';
 import { CreateUserDTO } from './input/createUser.dto';
-import { get } from 'http';
+import { Request } from 'express';
 import { JwtAuthGuard } from './authGuard.jwt';
 import { MailService } from 'src/mail/mail.service';
+import { ResetPassworDTO } from './input/resetPassword.dto';
+import { ForgotPassWordDTO } from './input/forgotPassword.dto';
 
 @Controller('auth')
 // @SerializeOptions({ strategy: 'excludeAll' })
@@ -41,7 +43,7 @@ export class AuthController {
   @Get()
   @UseGuards(JwtAuthGuard)
   async getMe(@Req() req: any): Promise<User> {
-    this.mailService.sendMailResetPassword(req.user, 'testurl');
+    // this.mailService.sendMailResetPassword(req.user, 'testurl');
     return req.user;
   }
 
@@ -52,5 +54,22 @@ export class AuthController {
       token: this.authService.signToken(user),
       user: user,
     };
+  }
+
+  @Post('forgotPassword')
+  async forgotPassword(
+    @Body() forgotPassWordDTO: ForgotPassWordDTO,
+    @Req() req: Request,
+  ) {
+    let host = `${req.protocol}://${req.get('Host')}`;
+    return await this.authService.forgotPassword(forgotPassWordDTO.email, host);
+  }
+
+  @Patch('resetPassword/:token')
+  async resetPassword(
+    @Param('token') token: string,
+    @Body() resetPassworDTO: ResetPassworDTO,
+  ) {
+    return await this.authService.resetPassword(token, resetPassworDTO);
   }
 }
