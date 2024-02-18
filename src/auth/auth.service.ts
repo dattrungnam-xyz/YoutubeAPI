@@ -14,6 +14,7 @@ import { CreateUserDTO } from './input/createUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
 import { ResetPassworDTO } from './input/resetPassword.dto';
+import { UpdatePasswordDTO } from './input/updatePassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
     private readonly mailService: MailService,
   ) {}
 
-  public async hasPassword(password: string): Promise<string> {
+  public async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 10);
   }
   public async comparePassword(
@@ -57,7 +58,7 @@ export class AuthService {
     return this.userRepository.save(
       new User({
         ...createUserDTO,
-        password: await this.hasPassword(createUserDTO.password),
+        password: await this.hashPassword(createUserDTO.password),
       }),
     );
   }
@@ -102,7 +103,7 @@ export class AuthService {
     await this.userRepository.save(
       new User({
         ...user,
-        password: await this.hasPassword(resetPassword.password),
+        password: await this.hashPassword(resetPassword.password),
         passwordResetToken: null,
         passwordResetExpires: null,
         passwordChangedAt: new Date(),
@@ -113,5 +114,27 @@ export class AuthService {
       message: 'Password reset successful!',
     };
   }
-  public async updatePassword() {}
+  async updatePassword(id: string, updatePassword: UpdatePasswordDTO) {
+    let user = await this.userRepository.findOneBy({ id });
+    // console.log(user);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    if (
+      !(await this.comparePassword(
+        updatePassword.currentPassword,
+        user.password,
+      ))
+    ) {
+      throw new UnauthorizedException('Your current password is incorrect');
+    }
+    let newUser = await this.userRepository.save(
+      new User({
+        ...user,
+        password: await this.hashPassword(updatePassword.password),
+        passwordChangedAt: new Date(),
+      }),
+    );
+    return newUser;
+  }
 }

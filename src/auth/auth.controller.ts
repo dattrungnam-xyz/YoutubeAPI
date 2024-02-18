@@ -22,9 +22,10 @@ import { JwtAuthGuard } from './authGuard.jwt';
 import { MailService } from 'src/mail/mail.service';
 import { ResetPassworDTO } from './input/resetPassword.dto';
 import { ForgotPassWordDTO } from './input/forgotPassword.dto';
+import { UpdatePasswordDTO } from './input/updatePassword.dto';
 
 @Controller('auth')
-// @SerializeOptions({ strategy: 'excludeAll' })
+@SerializeOptions({ strategy: 'excludeAll' })
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -40,12 +41,12 @@ export class AuthController {
     };
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  async getMe(@Req() req: any): Promise<User> {
-    // this.mailService.sendMailResetPassword(req.user, 'testurl');
-    return req.user;
-  }
+  // @Get()
+  // @UseGuards(JwtAuthGuard)
+  // async getMe(@Req() req: any): Promise<User> {
+  //   // this.mailService.sendMailResetPassword(req.user, 'testurl');
+  //   return req.user;
+  // }
 
   @Post('signup')
   async signup(@Body() createUserDTO: CreateUserDTO) {
@@ -71,5 +72,15 @@ export class AuthController {
     @Body() resetPassworDTO: ResetPassworDTO,
   ) {
     return await this.authService.resetPassword(token, resetPassworDTO);
+  }
+
+  @Patch('updatePassword')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async updatePassword(
+    @CurrentUser() user,
+    @Body() updatePasswordDTO: UpdatePasswordDTO,
+  ) {
+    return await this.authService.updatePassword(user.id, updatePasswordDTO);
   }
 }
