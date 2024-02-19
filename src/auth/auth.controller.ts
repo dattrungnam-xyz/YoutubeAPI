@@ -11,6 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
   Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CurrentUser } from 'src/decorator/currentUser.decorator';
@@ -81,6 +82,7 @@ export class AuthController {
     @CurrentUser() user,
     @Body() updatePasswordDTO: UpdatePasswordDTO,
   ) {
+    if (!user) throw new UnauthorizedException();
     return await this.authService.updatePassword(user.id, updatePasswordDTO);
   }
 }

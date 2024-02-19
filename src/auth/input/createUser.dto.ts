@@ -9,6 +9,7 @@ export class CreateUserDTO {
   username: string;
 
   @IsString()
+  @Length(6)
   name: string;
 
   @IsEmail()
