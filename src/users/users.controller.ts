@@ -2,8 +2,11 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
+  Param,
   Patch,
+  Post,
   SerializeOptions,
   UnauthorizedException,
   UploadedFile,
@@ -18,9 +21,10 @@ import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { updateProfileDTO } from './input/updateProfile.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { Exception } from 'handlebars';
 
 @Controller('users')
-@SerializeOptions({ strategy: 'excludeAll' })
+// @SerializeOptions({ strategy: 'excludeAll' })
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -40,7 +44,7 @@ export class UsersController {
     @UploadedFile() file: Express.Multer.File,
     @Body() updateProfileDTO: updateProfileDTO,
     @CurrentUser() user: User,
-  ) {
+  ): Promise<User> {
     if (!user) throw new UnauthorizedException();
     if (file) {
       updateProfileDTO.avatar = (
@@ -49,8 +53,33 @@ export class UsersController {
     } else {
       delete updateProfileDTO['avatar'];
     }
-    // console.log(updateProfileDTO);
-    // console.log(file);
     return await this.usersService.updateProfile(user, updateProfileDTO);
+  }
+
+  @Post('subcribe/:id')
+  @UseGuards(JwtAuthGuard)
+  async subcribe(
+    @Param('id') id: string,
+    @CurrentUser() user: User,
+  ): Promise<User> {
+    // if (!user) {
+    //   throw new UnauthorizedException('Current user does not exist.');
+    // }
+    return await this.usersService.subcribe(user, id)
+  }
+
+  @Delete('subcribe/:id')
+  // @UseGuards(JwtAuthGuard)
+  async unsubcribe(
+    @Param('id') id: string,
+    @CurrentUser() user: User,
+  ): Promise<User> {
+    if (!user) throw new UnauthorizedException('Current user does not exist.');
+    return await this.usersService.unsubcribe(user, id);
+  }
+
+  @Get(':id')
+  async testGetUser(@Param('id') id: string) {
+    return await this.usersService.testGetUser(id);
   }
 }

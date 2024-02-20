@@ -33,20 +33,20 @@ export class User {
   email: string;
 
   @Expose()
-  @Column()
+  @Column({ nullable: true })
   avatar: string;
 
   @Column()
   password: string;
 
   @Expose()
-  @Column()
+  @Column({ nullable: true })
   passwordChangedAt: Date;
 
-  @Column()
+  @Column({ nullable: true })
   passwordResetToken: String;
 
-  @Column()
+  @Column({ nullable: true })
   passwordResetExpires: Date;
 
   @Expose()
@@ -62,9 +62,12 @@ export class User {
   subcribes: User[];
 
   @Expose()
-  @ManyToMany(() => User, (user) => user.subcribes)
+  @ManyToMany(() => User, (user2) => user2.subcribes)
   subcribers: User[];
 
-  @OneToMany(() => Video, (video) => video.idUser)
+  @OneToMany(() => Video, (video) => video.idUser, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   videos: Video[];
 }

@@ -13,6 +13,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
   synchronize: true,
+  dropSchema: false,
 };
 
 const dataSource = new DataSource(dataSourceOptions);
