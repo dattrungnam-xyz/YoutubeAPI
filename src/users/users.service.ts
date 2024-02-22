@@ -49,6 +49,7 @@ export class UsersService {
     });
     let newUser = await this.userRepository.findOneBy({ id });
     if (!newUser) throw new UnauthorizedException('User does not exist');
+    if (!currUser.subcribes) currUser.subcribes = [];
     currUser.subcribes = currUser.subcribes.filter((it) => {
       return it.id != id;
     });

@@ -65,9 +65,8 @@ export class User {
   @ManyToMany(() => User, (user2) => user2.subcribes)
   subcribers: User[];
 
-  @OneToMany(() => Video, (video) => video.idUser, {
+  @OneToMany(() => Video, (video) => video.user, {
     nullable: true,
-    onDelete: 'CASCADE',
   })
   videos: Video[];
 }

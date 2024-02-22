@@ -13,6 +13,7 @@ import { TestModule } from './test/test.module';
 import { CommentModule } from './comment/comment.module';
 import { LikeModule } from './like/like.module';
 import { MailModule } from './mail/mail.module';
+import { FactoryModule } from './factory/factory.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +34,7 @@ import { MailModule } from './mail/mail.module';
     CommentModule,
     LikeModule,
     MailModule,
+    FactoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
