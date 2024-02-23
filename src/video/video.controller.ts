@@ -3,8 +3,12 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   FileTypeValidator,
+  Get,
+  Param,
   ParseFilePipe,
+  Patch,
   Post,
   SerializeOptions,
   UploadedFile,
@@ -14,12 +18,17 @@ import {
 } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDTO } from './input/createVideo.dto';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/authGuard.jwt';
 import { ParseFile } from 'src/validation/ParseFile.pipe';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { CurrentUser } from 'src/decorator/currentUser.decorator';
 import { User } from 'src/users/entities/user.entity';
+import { UpdateVideoDTO } from './input/updateVideo.dto';
+import { Video } from './entities/video.entity';
 
 @Controller('video')
 @SerializeOptions({ strategy: 'excludeAll' })
@@ -46,7 +55,7 @@ export class VideoController {
     },
     @Body() createVideoDTO: CreateVideoDTO,
     @CurrentUser() user: User,
-  ) {
+  ): Promise<Video> {
     // console.log(files.video[0].mimetype);
     // console.log(files.thumbnail[0].mimetype);
 
@@ -64,5 +73,37 @@ export class VideoController {
     createVideoDTO.thumbnailUrl = cloudRes[1].url;
 
     return await this.videoService.createVideo(user, createVideoDTO);
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseInterceptors(FileInterceptor('thumbnail'))
+  async updateVideo(
+    @UploadedFile()
+    thumbnail: Express.Multer.File,
+    @CurrentUser() user: User,
+    @Body() updateVideoDTO: UpdateVideoDTO,
+    @Param('id') idVideo: string,
+  ): Promise<Video> {
+    if (thumbnail) {
+      if (!thumbnail.mimetype.startsWith('image'))
+        throw new BadRequestException('Invalid file type');
+      let { url, type } = await this.cloudinaryService.uploadImage(thumbnail);
+      updateVideoDTO.thumbnailUrl = url;
+    }
+    return await this.videoService.updateVideo(idVideo, user, updateVideoDTO);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async deleteVideo(@CurrentUser() user: User, @Param('id') idVideo: string) {
+    return await this.videoService.deleteVideo(idVideo, user);
+  }
+
+  @Get()
+  async getVideo() {
+    return await this.videoService.getAllVideo();
   }
 }

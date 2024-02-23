@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -47,4 +48,7 @@ export class Video {
   @Expose()
   @ManyToOne(() => User, (user) => user.videos, { nullable: false })
   user: User;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
