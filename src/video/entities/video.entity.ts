@@ -1,4 +1,6 @@
 import { Expose } from 'class-transformer';
+import { Comment } from 'src/comment/entities/comment.entity';
+import { Reaction } from 'src/reaction/entities/reaction.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
@@ -7,6 +9,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -51,4 +54,10 @@ export class Video {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToMany(() => Comment, (comment) => comment.video)
+  comments: Comment[];
+
+  @OneToMany(() => Reaction, (reaction) => reaction.video)
+  reactions: Reaction[];
 }

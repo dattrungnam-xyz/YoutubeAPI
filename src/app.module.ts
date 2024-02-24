@@ -11,9 +11,8 @@ import { dataSourceOptions } from './config/typeorm.config';
 import { UsersModule } from './users/users.module';
 import { TestModule } from './test/test.module';
 import { CommentModule } from './comment/comment.module';
-import { LikeModule } from './like/like.module';
 import { MailModule } from './mail/mail.module';
-import { FactoryModule } from './factory/factory.module';
+import { ReactionModule } from './reaction/reaction.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,9 +31,8 @@ import { FactoryModule } from './factory/factory.module';
     UsersModule,
     TestModule,
     CommentModule,
-    LikeModule,
     MailModule,
-    FactoryModule,
+    ReactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

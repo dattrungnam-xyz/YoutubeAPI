@@ -1,4 +1,6 @@
 import { Expose } from 'class-transformer';
+import { Comment } from 'src/comment/entities/comment.entity';
+import { Reaction } from 'src/reaction/entities/reaction.entity';
 import { Video } from 'src/video/entities/video.entity';
 import {
   Entity,
@@ -9,6 +11,7 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 
 @Entity()
@@ -65,8 +68,12 @@ export class User {
   @ManyToMany(() => User, (user2) => user2.subcribes)
   subcribers: User[];
 
-  @OneToMany(() => Video, (video) => video.user, {
-    nullable: true,
-  })
+  @OneToMany(() => Video, (video) => video.user, {})
   videos: Video[];
+
+  @OneToMany(() => Reaction, (reaction) => reaction.user)
+  reactions: Reaction[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }
