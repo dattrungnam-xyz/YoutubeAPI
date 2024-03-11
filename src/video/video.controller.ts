@@ -8,6 +8,7 @@ import {
   Get,
   Param,
   ParseFilePipe,
+  ParseIntPipe,
   Patch,
   Post,
   SerializeOptions,
@@ -103,7 +104,13 @@ export class VideoController {
   }
 
   @Get()
-  async getVideo() {
-    return await this.videoService.getAllVideo();
+  async getVideos(@Param('page') page: number, @Param('limit') limit: number) {
+    page = page || 1;
+    limit = limit || 15;
+    return await this.videoService.getAllVideo(+page, +limit);
+  }
+  @Get(':id')
+  async getVideo(@Param('id') id: string) {
+    return await this.videoService.getVideo(id);
   }
 }

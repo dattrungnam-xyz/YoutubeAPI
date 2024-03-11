@@ -64,8 +64,30 @@ export class VideoService {
     return await this.videoRepository.softDelete(idVideo);
   }
 
-  async getAllVideo(): Promise<Video[]> {
-    return await this.videoRepository.find({  });
-    // return await this.videoRepository.find({ withDeleted: true });
+  async getVideo(id: string): Promise<Video> {
+    return await this.videoRepository.findOne({
+      where: { id: id },
+      relations: [
+        'user',
+        'comments',
+        'reactions',
+        'comments.user',
+        'comments.reactions',
+        'comments.subComment',
+        'comments.parentComment',
+      ],
+    });
+  }
+  async getAllVideo(page: number, limit: number): Promise<Video[]> {
+    let offset: number = (page - 1) * limit;
+
+    return await this.videoRepository
+      .createQueryBuilder('e')
+      .leftJoinAndSelect('e.user', 'user')
+      .leftJoinAndSelect('e.comments', 'comment')
+      .leftJoinAndSelect('e.reactions', 'reactions')
+      .skip(offset)
+      .take(limit)
+      .getMany();
   }
 }
