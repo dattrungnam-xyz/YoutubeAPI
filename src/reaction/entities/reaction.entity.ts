@@ -3,6 +3,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Video } from 'src/video/entities/video.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToOne,
@@ -16,11 +17,14 @@ export enum ReactionType {
 
 @Entity()
 export class Reaction {
+  constructor(partial?: Partial<Reaction>) {
+    Object.assign(this, partial);
+  }
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => User, (user) => user.reactions)
-  user: User;
+  user: Promise<User>;
 
   @Column({
     type: 'enum',
@@ -30,8 +34,11 @@ export class Reaction {
   type: ReactionType;
 
   @ManyToOne(() => Comment, (comment) => comment.reactions)
-  comment?: Comment;
+  comment?: Promise<Comment>;
 
   @ManyToOne(() => Video, (video) => video.reactions)
-  video?: Video;
+  video?: Promise<Video>;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createAt: Date;
 }

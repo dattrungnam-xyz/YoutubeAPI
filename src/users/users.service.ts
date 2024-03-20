@@ -29,13 +29,16 @@ export class UsersService {
       where: { id },
       relations: ['subcribes', 'subcribers'],
     });
-    if (!currUser.subcribes) currUser.subcribes = [];
+    if (!currUser.subcribes) currUser.subcribes = Promise.resolve([]);
     if (
-      currUser.subcribes.every((user) => {
+      (await currUser.subcribes).every((user) => {
         return user.id != id;
       })
     ) {
-      currUser.subcribes = [...currUser.subcribes, newUser];
+      currUser.subcribes = Promise.resolve([
+        ...(await currUser.subcribes),
+        newUser,
+      ]);
     }
     return await this.userRepository.save(currUser);
   }
@@ -49,10 +52,12 @@ export class UsersService {
     });
     let newUser = await this.userRepository.findOneBy({ id });
     if (!newUser) throw new UnauthorizedException('User does not exist');
-    if (!currUser.subcribes) currUser.subcribes = [];
-    currUser.subcribes = currUser.subcribes.filter((it) => {
-      return it.id != id;
-    });
+    if (!currUser.subcribes) currUser.subcribes = Promise.resolve([]);
+    currUser.subcribes = Promise.resolve(
+      (await currUser.subcribes).filter((it) => {
+        return it.id != id;
+      }),
+    );
     return await this.userRepository.save(currUser);
   }
 

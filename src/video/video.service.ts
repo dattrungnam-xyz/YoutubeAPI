@@ -21,7 +21,7 @@ export class VideoService {
     createVideoDTO: CreateVideoDTO,
   ): Promise<Video> {
     return await this.videoRepository.save(
-      new Video({ user: user, ...createVideoDTO }),
+      new Video({ user: Promise.resolve(user), ...createVideoDTO }),
     );
   }
 
@@ -39,7 +39,7 @@ export class VideoService {
     if (!video) {
       throw new NotFoundException('Video not found.');
     }
-    if (video.user.id != user.id) {
+    if ((await video.user).id != user.id) {
       throw new ForbiddenException('User not allowed to edit this video.');
     }
 
@@ -58,7 +58,7 @@ export class VideoService {
     if (!video) {
       throw new NotFoundException('Video not found.');
     }
-    if (video.user.id != user.id) {
+    if ((await video.user).id != user.id) {
       throw new ForbiddenException('User not allowed to edit this video.');
     }
     return await this.videoRepository.softDelete(idVideo);

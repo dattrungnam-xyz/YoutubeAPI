@@ -50,14 +50,14 @@ export class Video {
 
   @Expose()
   @ManyToOne(() => User, (user) => user.videos, { nullable: false })
-  user: User;
+  user: Promise<User>;
 
   @DeleteDateColumn()
   deletedAt?: Date;
 
   @OneToMany(() => Comment, (comment) => comment.video)
-  comments: Comment[];
+  comments: Promise<Comment[]>;
 
   @OneToMany(() => Reaction, (reaction) => reaction.video)
-  reactions: Reaction[];
+  reactions: Promise<Reaction[]>;
 }

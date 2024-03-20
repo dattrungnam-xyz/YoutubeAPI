@@ -62,18 +62,18 @@ export class User {
   @Expose()
   @ManyToMany(() => User, (user) => user.subcribers)
   @JoinTable()
-  subcribes: User[];
+  subcribes: Promise<User[]>;
 
   @Expose()
   @ManyToMany(() => User, (user2) => user2.subcribes)
-  subcribers: User[];
+  subcribers: Promise<User[]>;
 
   @OneToMany(() => Video, (video) => video.user, {})
-  videos: Video[];
+  videos: Promise<Video[]>;
 
   @OneToMany(() => Reaction, (reaction) => reaction.user)
-  reactions: Reaction[];
+  reactions: Promise<Reaction[]>;
 
   @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+  comments: Promise<Comment[]>;
 }

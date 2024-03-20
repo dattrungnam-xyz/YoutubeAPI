@@ -19,28 +19,25 @@ export class Comment {
   id: string;
 
   @ManyToOne(() => User, (user) => user.comments)
-  user: User;
+  user: Promise<User>;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createAt: Date;
 
   @Column()
   content: string;
 
   @ManyToOne(() => Video, (video) => video.comments, { nullable: true })
-  video?: Video;
+  video?: Promise<Video>;
 
   @OneToMany(() => Reaction, (reaction) => reaction.comment)
-  reactions?: Reaction[];
+  reactions?: Promise<Reaction[]>;
 
-  @ManyToOne(() => Comment, (comment) => comment.parentComment, {
+  @OneToMany(() => Comment, (comment) => comment.parentComment, {
     nullable: true,
   })
-  subComment?: Comment[];
+  subComment?: Promise<Comment[]>;
 
-  @OneToMany(() => Comment, (comment) => comment.subComment, { nullable: true })
-  parentComment?: Comment;
+  @ManyToOne(() => Comment, (comment) => comment.subComment, { nullable: true })
+  parentComment?: Promise<Comment>;
 }
