@@ -8,6 +8,7 @@ import { UserDoesNotExistConstraint } from 'src/validation/UserDoesNotExist.cons
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { MailModule } from 'src/mail/mail.module';
+import { AuthResolver } from './auth.resolver';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MailModule } from 'src/mail/mail.module';
     LocalStrategy,
     JwtStrategy,
     UserDoesNotExistConstraint,
+    AuthResolver
   ],
 })
 export class AuthModule {}
