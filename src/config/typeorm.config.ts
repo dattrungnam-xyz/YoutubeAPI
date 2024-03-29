@@ -1,4 +1,9 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
+import {
+  DataSource,
+  DataSourceOptions,
+  DefaultNamingStrategy,
+  NamingStrategyInterface,
+} from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
 
 dotenvConfig({ path: '.env' });

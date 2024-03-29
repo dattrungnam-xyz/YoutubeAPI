@@ -104,12 +104,14 @@ export class VideoController {
   }
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   async getVideos(@Param('page') page: number, @Param('limit') limit: number) {
     page = page || 1;
     limit = limit || 15;
     return await this.videoService.getAllVideo(+page, +limit);
   }
   @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
   async getVideo(@Param('id') id: string) {
     return await this.videoService.getVideo(id);
   }

@@ -1,3 +1,4 @@
+import { Expose, Type } from 'class-transformer';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Video } from 'src/video/entities/video.entity';
@@ -20,12 +21,15 @@ export class Reaction {
   constructor(partial?: Partial<Reaction>) {
     Object.assign(this, partial);
   }
+  @Expose()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Expose()
   @ManyToOne(() => User, (user) => user.reactions)
   user: Promise<User>;
 
+  @Expose()
   @Column({
     type: 'enum',
     enum: ReactionType,
@@ -33,12 +37,15 @@ export class Reaction {
   })
   type: ReactionType;
 
+  @Expose()
   @ManyToOne(() => Comment, (comment) => comment.reactions)
   comment?: Promise<Comment>;
 
+  @Expose()
   @ManyToOne(() => Video, (video) => video.reactions)
   video?: Promise<Video>;
 
+  @Expose()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createAt: Date;
 }

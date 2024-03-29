@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { Reaction } from 'src/reaction/entities/reaction.entity';
 import { Video } from 'src/video/entities/video.entity';

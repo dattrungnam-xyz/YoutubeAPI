@@ -74,7 +74,7 @@ export class ReactionService {
     }
   }
   async findAll() {
-    return await this.videoRepository.find({
+    return await this.reactionRepository.find({
       relations: ['user', 'video', 'comment'],
     });
   }

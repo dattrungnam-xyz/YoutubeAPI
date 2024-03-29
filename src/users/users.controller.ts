@@ -24,7 +24,7 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Exception } from 'handlebars';
 
 @Controller('users')
-// @SerializeOptions({ strategy: 'excludeAll' })
+@SerializeOptions({ strategy: 'excludeAll' })
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -32,6 +32,7 @@ export class UsersController {
   ) {}
   @Get()
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   getUser(@CurrentUser() user: User): User {
     return user;
   }
@@ -58,6 +59,7 @@ export class UsersController {
 
   @Post('subcribe/:id')
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async subcribe(
     @Param('id') id: string,
     @CurrentUser() user: User,
@@ -65,11 +67,12 @@ export class UsersController {
     // if (!user) {
     //   throw new UnauthorizedException('Current user does not exist.');
     // }
-    return await this.usersService.subcribe(user, id)
+    return await this.usersService.subcribe(user, id);
   }
 
   @Delete('subcribe/:id')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async unsubcribe(
     @Param('id') id: string,
     @CurrentUser() user: User,

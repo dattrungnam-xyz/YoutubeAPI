@@ -55,9 +55,11 @@ export class Video {
   @DeleteDateColumn()
   deletedAt?: Date;
 
+  @Expose()
   @OneToMany(() => Comment, (comment) => comment.video)
   comments: Promise<Comment[]>;
-
+  
+  @Expose()
   @OneToMany(() => Reaction, (reaction) => reaction.video)
   reactions: Promise<Reaction[]>;
 }

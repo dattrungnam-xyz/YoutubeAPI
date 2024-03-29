@@ -34,6 +34,7 @@ export class AuthController {
   ) {}
   @Post('login')
   @UseGuards(AuthGuardLocal)
+  @UseInterceptors(ClassSerializerInterceptor)
   async login(@CurrentUser() user: User) {
     // let user = await this.authService.createUser(createUserDTO);
     return {
@@ -50,6 +51,7 @@ export class AuthController {
   // }
 
   @Post('signup')
+  @UseInterceptors(ClassSerializerInterceptor)
   async signup(@Body() createUserDTO: CreateUserDTO) {
     let user = await this.authService.createUser(createUserDTO);
     return {
@@ -59,6 +61,7 @@ export class AuthController {
   }
 
   @Post('forgotPassword')
+  @UseInterceptors(ClassSerializerInterceptor)
   async forgotPassword(
     @Body() forgotPassWordDTO: ForgotPassWordDTO,
     @Req() req: Request,
@@ -68,6 +71,7 @@ export class AuthController {
   }
 
   @Patch('resetPassword/:token')
+  @UseInterceptors(ClassSerializerInterceptor)
   async resetPassword(
     @Param('token') token: string,
     @Body() resetPassworDTO: ResetPassworDTO,
