@@ -1,3 +1,4 @@
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { Reaction } from 'src/reaction/entities/reaction.entity';
@@ -15,27 +16,33 @@ import {
 } from 'typeorm';
 
 @Entity()
+@ObjectType()
 export class User {
   constructor(partial?: Partial<User>) {
     Object.assign(this, partial);
   }
   @Expose()
   @PrimaryGeneratedColumn('uuid')
+  @Field()
   id: string;
 
   @Expose()
   @Column({ unique: true })
+  @Field()
   username: string;
 
   @Expose()
   @Column()
+  @Field()
   name: string;
 
   @Expose()
+  @Field()
   @Column({ unique: true })
   email: string;
 
   @Expose()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   avatar: string;
 
@@ -53,6 +60,7 @@ export class User {
   passwordResetExpires: Date;
 
   @Expose()
+  @Field()
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',

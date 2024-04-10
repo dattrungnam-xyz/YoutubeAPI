@@ -79,7 +79,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   async updatePassword(
-    @CurrentUser() user,
+    @CurrentUser() user: User,
     @Body() updatePasswordDTO: UpdatePasswordDTO,
   ) {
     if (!user) throw new UnauthorizedException();
