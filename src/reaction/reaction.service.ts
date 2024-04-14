@@ -32,6 +32,8 @@ export class ReactionService {
       });
       if (reaction) {
         await this.reactionRepository.delete(reaction.id);
+        return new Reaction();
+
       } else {
         let comment = await this.commentRepository.findOneBy({
           id: createReactionDTO.idComment,
@@ -59,6 +61,7 @@ export class ReactionService {
       });
       if (reaction) {
         await this.reactionRepository.delete(reaction.id);
+        return new Reaction();
       } else {
         let video = await this.videoRepository.findOneBy({
           id: createReactionDTO.idVideo,

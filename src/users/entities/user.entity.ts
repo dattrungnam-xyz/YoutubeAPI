@@ -70,18 +70,23 @@ export class User {
   @Expose()
   @ManyToMany(() => User, (user) => user.subcribers)
   @JoinTable()
+  @Field(() => [User], { nullable: true })
   subcribes: Promise<User[]>;
 
   @Expose()
   @ManyToMany(() => User, (user2) => user2.subcribes)
+  @Field(() => [User], { nullable: true })
   subcribers: Promise<User[]>;
 
   @OneToMany(() => Video, (video) => video.user, {})
+  @Field(() => [Video], { nullable: true })
   videos: Promise<Video[]>;
 
   @OneToMany(() => Reaction, (reaction) => reaction.user)
+  @Field(() => [Reaction], { nullable: true })
   reactions: Promise<Reaction[]>;
 
   @OneToMany(() => Comment, (comment) => comment.user)
+  @Field(() => [Comment], { nullable: true })
   comments: Promise<Comment[]>;
 }

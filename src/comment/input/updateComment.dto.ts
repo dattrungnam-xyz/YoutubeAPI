@@ -1,4 +1,10 @@
 import { PickType } from '@nestjs/mapped-types';
 import { CreateCommentDTO } from './createComment.dto';
-
-export class UpdateCommentDTO extends PickType(CreateCommentDTO, ['content']) {}
+import { IsString } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+@InputType()
+export class UpdateCommentDTO {
+  @IsString()
+  @Field()
+  content: string;
+}

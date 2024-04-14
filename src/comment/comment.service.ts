@@ -61,7 +61,7 @@ export class CommentService {
     );
   }
   async getComment(id: string) {
-    return await this.commentRepository.find({
+    return await this.commentRepository.findOne({
       where: { id: id },
       relations: ['user', 'video', 'reactions', 'subComment', 'parentComment'],
     });
