@@ -9,6 +9,7 @@ import { Comment } from './entities/comment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtAuthGuard } from '../auth/authGuard.jwt';
 import { User } from '../users/entities/user.entity';
+import { CreateCommentDTO } from './input/createComment.dto';
 
 describe('CommentController', () => {
   let controller: CommentController;
@@ -39,6 +40,26 @@ describe('CommentController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+  describe('createComment', () => {
+    it('should create a comment', async () => {
+      const createCommentDTO: CreateCommentDTO = { content: 'New comment' };
+      const user: User = { id: '1', username: 'testuser' } as User;
+      const result = {
+        id: '1',
+        ...createCommentDTO,
+      } as Comment;
+
+      jest.spyOn(service, 'createComment').mockResolvedValue(result);
+
+      expect(await controller.createComment(user, createCommentDTO)).toBe(
+        result,
+      );
+      expect(service.createComment).toHaveBeenCalledWith(
+        user,
+        createCommentDTO,
+      );
+    });
   });
   describe('updateComment', () => {
     it('should update a comment', async () => {
@@ -75,6 +96,28 @@ describe('CommentController', () => {
       await expect(
         controller.updateComment(id, updateCommentDTO, user),
       ).rejects.toThrow('Error updating comment');
+    });
+  });
+  describe('getCommentVideo', () => {
+    it('should return the video comment', async () => {
+      const id = '1';
+      const result = [
+        {
+          id: '1',
+          content: 'comment content 1',
+          user: null,
+        },
+        {
+          id: '2',
+          content: 'comment fcontent 2',
+          user: null,
+        },
+      ] as Comment[];
+
+      jest.spyOn(service, 'getCommentVideo').mockResolvedValue(result);
+
+      expect(await controller.getCommentVideo(id)).toBe(result);
+      expect(service.getCommentVideo).toHaveBeenCalledWith(id);
     });
   });
 });
