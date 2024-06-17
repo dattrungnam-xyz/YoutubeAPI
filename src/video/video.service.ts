@@ -7,8 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './entities/video.entity';
 import { Repository } from 'typeorm';
 import { CreateVideoDTO } from './input/createVideo.dto';
-import { User } from 'src/users/entities/user.entity';
+
 import { UpdateVideoDTO } from './input/updateVideo.dto';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class VideoService {

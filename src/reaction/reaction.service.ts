@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Reaction } from './entities/reaction.entity';
 import { Repository } from 'typeorm';
 import { CreateReactionDTO } from './input/createReaction.dto';
-import { User } from 'src/users/entities/user.entity';
-import { Video } from 'src/video/entities/video.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { Video } from '../video/entities/video.entity';
+import { Comment } from '../comment/entities/comment.entity';
+import { User } from '../users/entities/user.entity';
+
 
 @Injectable()
 export class ReactionService {

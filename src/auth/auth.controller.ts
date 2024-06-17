@@ -14,16 +14,19 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CurrentUser } from 'src/decorator/currentUser.decorator';
-import { User } from 'src/users/entities/user.entity';
+
+
 import { AuthGuardLocal } from './authGuard.local';
 import { CreateUserDTO } from './input/createUser.dto';
 import { Request } from 'express';
 import { JwtAuthGuard } from './authGuard.jwt';
-import { MailService } from 'src/mail/mail.service';
+
 import { ResetPassworDTO } from './input/resetPassword.dto';
 import { ForgotPassWordDTO } from './input/forgotPassword.dto';
 import { UpdatePasswordDTO } from './input/updatePassword.dto';
+import { MailService } from '../mail/mail.service';
+import { User } from '../users/entities/user.entity';
+import { CurrentUser } from '../decorator/currentUser.decorator';
 
 @Controller('auth')
 @SerializeOptions({ strategy: 'excludeAll' })

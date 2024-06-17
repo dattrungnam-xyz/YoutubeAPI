@@ -8,11 +8,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
-import { JwtAuthGuard } from 'src/auth/authGuard.jwt';
-import { CurrentUser } from 'src/decorator/currentUser.decorator';
-import { User } from 'src/users/entities/user.entity';
+
 import { CreateCommentDTO } from './input/createComment.dto';
 import { UpdateCommentDTO } from './input/updateComment.dto';
+import { JwtAuthGuard } from '../auth/authGuard.jwt';
+import { CurrentUser } from '../decorator/currentUser.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('comment')
 export class CommentController {

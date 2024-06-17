@@ -23,13 +23,14 @@ import {
   FileFieldsInterceptor,
   FileInterceptor,
 } from '@nestjs/platform-express';
-import { JwtAuthGuard } from 'src/auth/authGuard.jwt';
-import { ParseFile } from 'src/validation/ParseFile.pipe';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { CurrentUser } from 'src/decorator/currentUser.decorator';
-import { User } from 'src/users/entities/user.entity';
+
 import { UpdateVideoDTO } from './input/updateVideo.dto';
 import { Video } from './entities/video.entity';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { JwtAuthGuard } from '../auth/authGuard.jwt';
+import { ParseFile } from '../validation/ParseFile.pipe';
+import { CurrentUser } from '../decorator/currentUser.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('video')
 @SerializeOptions({ strategy: 'excludeAll' })

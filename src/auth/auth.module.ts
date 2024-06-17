@@ -4,11 +4,13 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { LocalStrategy } from './local.strategy';
-import { UserDoesNotExistConstraint } from 'src/validation/UserDoesNotExist.constraint';
+
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
-import { MailModule } from 'src/mail/mail.module';
+
 import { AuthResolver } from './auth.resolver';
+import { MailModule } from '../mail/mail.module';
+import { UserDoesNotExistConstraint } from '../validation/UserDoesNotExist.constraint';
 
 @Module({
   imports: [

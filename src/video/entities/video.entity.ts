@@ -1,8 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { Reaction } from 'src/reaction/entities/reaction.entity';
-import { User } from 'src/users/entities/user.entity';
+
 import {
   Entity,
   Column,
@@ -12,6 +10,9 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
+import { Reaction } from '../../reaction/entities/reaction.entity';
+import { Comment } from '../../comment/entities/comment.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 @ObjectType()

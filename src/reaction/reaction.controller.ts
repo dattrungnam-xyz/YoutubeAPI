@@ -8,10 +8,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ReactionService } from './reaction.service';
-import { JwtAuthGuard } from 'src/auth/authGuard.jwt';
-import { CurrentUser } from 'src/decorator/currentUser.decorator';
-import { User } from 'src/users/entities/user.entity';
+
 import { CreateReactionDTO } from './input/createReaction.dto';
+import { JwtAuthGuard } from '../auth/authGuard.jwt';
+import { CurrentUser } from '../decorator/currentUser.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('reaction')
 export class ReactionController {
