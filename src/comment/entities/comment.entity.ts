@@ -1,7 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Reaction } from 'src/reaction/entities/reaction.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Video } from 'src/video/entities/video.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +8,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Video } from '../../video/entities/video.entity';
+import { Reaction } from '../../reaction/entities/reaction.entity';
 
 @Entity()
 export class Comment {

@@ -8,9 +8,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { TestService } from './test.service';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ParseFile } from 'src/validation/ParseFile.pipe';
+import { ParseFile } from '../validation/ParseFile.pipe';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+
 
 @Controller('test')
 export class TestController {

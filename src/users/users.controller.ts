@@ -15,13 +15,14 @@ import {
 } from '@nestjs/common';
 
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from 'src/auth/authGuard.jwt';
-import { CurrentUser } from 'src/decorator/currentUser.decorator';
+
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { updateProfileDTO } from './input/updateProfile.dto';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Exception } from 'handlebars';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { JwtAuthGuard } from '../auth/authGuard.jwt';
+import { CurrentUser } from '../decorator/currentUser.decorator';
 
 @Controller('users')
 @SerializeOptions({ strategy: 'excludeAll' })

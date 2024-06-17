@@ -1,5 +1,5 @@
 import { IsString, Length } from 'class-validator';
-import { IsRepeated } from 'src/validation/IsRepeated.constraint';
+import { IsRepeated } from '../../validation/IsRepeated.constraint';
 
 export class UpdatePasswordDTO {
   @IsString()

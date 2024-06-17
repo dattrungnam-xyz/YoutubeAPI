@@ -12,9 +12,9 @@ import { User } from '../users/entities/user.entity';
 import { MoreThan, Repository } from 'typeorm';
 import { CreateUserDTO } from './input/createUser.dto';
 import { JwtService } from '@nestjs/jwt';
-import { MailService } from 'src/mail/mail.service';
 import { ResetPassworDTO } from './input/resetPassword.dto';
 import { UpdatePasswordDTO } from './input/updatePassword.dto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {

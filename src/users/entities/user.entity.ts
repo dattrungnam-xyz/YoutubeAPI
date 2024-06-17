@@ -1,7 +1,5 @@
 import { Expose, Type } from 'class-transformer';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { Reaction } from 'src/reaction/entities/reaction.entity';
-import { Video } from 'src/video/entities/video.entity';
+
 import {
   Entity,
   Column,
@@ -13,6 +11,9 @@ import {
   OneToMany,
   OneToOne,
 } from 'typeorm';
+import { Video } from '../../video/entities/video.entity';
+import { Reaction } from '../../reaction/entities/reaction.entity';
+import { Comment } from '../../comment/entities/comment.entity';
 
 @Entity()
 export class User {

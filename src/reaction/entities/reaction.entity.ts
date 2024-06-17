@@ -1,7 +1,5 @@
 import { Expose, Type } from 'class-transformer';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Video } from 'src/video/entities/video.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +8,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Comment } from '../../comment/entities/comment.entity';
+import { Video } from '../../video/entities/video.entity';
+import { User } from '../../users/entities/user.entity';
 
 export enum ReactionType {
   LIKE = 'like',
