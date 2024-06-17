@@ -8,11 +8,11 @@ import { Repository } from 'typeorm';
 import { CreateCommentDTO } from './input/createComment.dto';
 import { Comment } from './entities/comment.entity';
 
-import { InvalidInputException } from 'src/exception/customExceptions/InvalidInputException';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateCommentDTO } from './input/updateComment.dto';
 import { Video } from '../video/entities/video.entity';
 import { User } from '../users/entities/user.entity';
+import { InvalidInputException } from '../exception/customExceptions/InvalidInputException';
 
 @Injectable()
 export class CommentService {
