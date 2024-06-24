@@ -65,9 +65,9 @@ export class UsersController {
     @Param('id') id: string,
     @CurrentUser() user: User,
   ): Promise<User> {
-    // if (!user) {
-    //   throw new UnauthorizedException('Current user does not exist.');
-    // }
+    if (!user) {
+      throw new UnauthorizedException('Current user does not exist.');
+    }
     return await this.usersService.subcribe(user, id);
   }
 
