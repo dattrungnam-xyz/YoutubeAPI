@@ -23,13 +23,15 @@ import {
   FileFieldsInterceptor,
   FileInterceptor,
 } from '@nestjs/platform-express';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+
 import { UpdateVideoDTO } from './input/updateVideo.dto';
 import { Video } from './entities/video.entity';
 import { JwtAuthGuard } from '../auth/authGuard.jwt';
 import { ParseFile } from '../validation/ParseFile.pipe';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser } from '../decorator/currentUser.decorator';
+import { InvalidInputException } from '../exception/customExceptions/InvalidInputException';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('video')
 @SerializeOptions({ strategy: 'excludeAll' })
@@ -64,7 +66,7 @@ export class VideoController {
       !files.video[0].mimetype.startsWith('video') ||
       !files.thumbnail[0].mimetype.startsWith('image')
     )
-      throw new BadRequestException('Invalid file type');
+      throw new InvalidInputException();
 
     let cloudRes = await Promise.all([
       this.cloudinaryService.uploadVideoStream(files.video[0]),
@@ -89,7 +91,7 @@ export class VideoController {
   ): Promise<Video> {
     if (thumbnail) {
       if (!thumbnail.mimetype.startsWith('image'))
-        throw new BadRequestException('Invalid file type');
+        throw new InvalidInputException();
       let { url, type } = await this.cloudinaryService.uploadImage(thumbnail);
       updateVideoDTO.thumbnailUrl = url;
     }
