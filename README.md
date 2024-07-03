@@ -57,7 +57,24 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## ENV
+DB_HOST = localhost 
+DB_HOST = mysql //for docker
+DB_PORT = 
+DB_USER = 
+DB_PASSWORD = 
 
+DB_NAME = 
+DB_DROP_SCHEMA = 
+
+CLOUDINARY_NAME = 
+CLOUDINARY_API_KEY = 
+CLOUDINARY_API_SECRET = 
+
+JWT_SECRET = 
+
+GMAIL_USERNAME = 
+GMAIL_PASSWORD = 
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
