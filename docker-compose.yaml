@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mysql:
@@ -6,9 +6,9 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
-    ports:
-      - 3306:3306
+      MYSQL_ROOT_PASSWORD: "123456"
+    networks:
+      - app
 
   postgres:
     image: postgres:13.1
@@ -17,6 +17,8 @@ services:
       POSTGRES_USER: ytbapi
       POSTGRES_PASSWORD: example
       POSTGRES_DB: ytb
+    networks:
+      - app
     ports:
       - 5432:5432
 
@@ -25,3 +27,24 @@ services:
     restart: always
     ports:
       - 8080:8080
+    depends_on:
+      - postgres
+      - mysql
+    networks:
+      - app
+  youtube:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - app
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+      - mysql
+      - adminer
+    volumes:
+      - ./src:/usr/src/app/src
+networks:
+  app:
